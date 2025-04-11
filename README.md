@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project involves training and evaluating a classification model using curated datasets. The repository is structured for reproducibility, from raw data processing to final model training and evaluation.
+This project involves training and evaluating a classification model for detecting criticism in the Russian Parliament, the State Duma.
 
 ## Repository Structure
 
