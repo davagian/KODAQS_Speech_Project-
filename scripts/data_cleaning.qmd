@@ -1,0 +1,78 @@
+---
+title: "Data Cleaning"
+format: html
+editor: visual
+---
+
+## Load the dataset of Duma speeches
+
+```{r}
+library(readr)
+
+# Load raw dataset (assumed to be in data/raw/)
+duma_corpus <- read_csv("..data/raw/duma_corpus.csv")
+```
+
+## Merge speeches by the same speaker in the same context
+
+```{r}
+library(dplyr)
+merged_data <- duma_corpus %>%
+  group_by(Date, Name, Issue, Stage, Convocation, Party) %>%
+  summarize(
+    text = paste(Text, collapse = " "),  
+    .groups = "drop"  
+  )
+```
+
+\#' Save to processed folder
+
+```{r}
+write.csv(merged_data, "..data/processed/consistent_dataset.csv", row.names = FALSE)
+
+# Optional reload (not strictly necessary if continuing in same session)
+consistent_dataset <- read_csv("..data/processed/consistent_dataset.csv")
+```
+
+## Filter speeches with mentions of the government
+
+```{r}
+executive_speeches <- subset(consistent_dataset, grepl("правительств\\w*", text, ignore.case = TRUE))
+```
+
+## Extract contextual sentences around keyword
+
+```{r}
+library(stringr)  # For string manipulation functions
+
+# Function to extract target sentences
+extract_sentences <- function(text, keyword) {
+  # Split text into sentences
+  sentences <- unlist(str_split(text, "(?<=[.!?])\\s+"))
+  
+  # Find sentences containing the keyword
+  target_indices <- which(grepl(keyword, sentences, ignore.case = TRUE))
+  
+  # Extract the previous, current, and next sentence for each target sentence
+  result <- lapply(target_indices, function(i) {
+    start <- max(1, i - 1)  # Ensure we don't go below the first sentence
+    end <- min(length(sentences), i + 1)  # Ensure we don't go beyond the last sentence
+    paste(sentences[start:end], collapse = " ")  # Combine the three sentences
+  })
+  
+  # Return the extracted sentences as a single string (separated by " | " if multiple occurrences)
+  paste(result, collapse = " | ")
+}
+
+# Apply the function to each row in the dataset
+executive_speeches$filtered_text <- sapply(executive_speeches$text, extract_sentences, keyword = "правительств\\w*")
+
+# Filter out rows where no keyword was found
+executive_speeches <- executive_speeches[nchar(executive_speeches$filtered_text) > 0, ]
+```
+
+## Save the final trimmed dataset
+
+```{r}
+write.csv(executive_speeches, "../data/processed/executive_speeches_trimmed.csv", row.names = FALSE)
+```
