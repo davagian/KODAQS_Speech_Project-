@@ -6,8 +6,6 @@ This project involves training and evaluating a classification model using curat
 
 ## Repository Structure
 
-## Repository Structure
-
 - `data/`
   - `raw/`
     - `training_dataset.csv` – Dataset used to train the classification model
