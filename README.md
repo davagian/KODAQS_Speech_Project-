@@ -6,17 +6,18 @@ This project involves training and evaluating a classification model using curat
 
 ## Repository Structure
 
-├── data/
-│   ├── raw/
-│   │   ├── training_dataset.csv           # Dataset used to train the classification model
-│   │   ├── dume_corpus_smp.csv            # Raw file used for data preparation
-│   ├── processed/                         # Contains cleaned and processed data subsets
-│
-├── scripts/
-│   ├── data_preparation.qmd               # Quarto file for data cleaning and preparation
-│   ├── analysis.ipynb                     # Notebook for training and classification
-│
-├── model/                                 # Output: the trained classification model
-│                                          
-│
-├── run.sh                                 # Script to replicate full analysis pipeline
+## Repository Structure
+
+- `data/`
+  - `raw/`
+    - `training_dataset.csv` – Dataset used to train the classification model
+    - `dume_corpus_smp.csv` – Raw file used for preparation
+  - `processed/` – Contains cleaned and subsetted data
+
+- `scripts/`
+  - `data_preparation.qmd` – Quarto script for data cleaning and prep
+  - `analysis.ipynb` – Jupyter notebook for model training and classification
+
+- `model/` – Output trained classification model
+
+- `run.sh` – Shell script to replicate full analysis pipeline
