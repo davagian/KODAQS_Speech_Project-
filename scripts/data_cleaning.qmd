@@ -10,7 +10,7 @@ editor: visual
 library(readr)
 
 # Load raw dataset (assumed to be in data/raw/)
-duma_corpus <- read_csv("..data/raw/duma_corpus.csv")
+duma_corpus <- read_csv("../data/raw/duma_corpus_smp.csv")
 ```
 
 ## Merge speeches by the same speaker in the same context
@@ -28,10 +28,10 @@ merged_data <- duma_corpus %>%
 \#' Save to processed folder
 
 ```{r}
-write.csv(merged_data, "..data/processed/consistent_dataset.csv", row.names = FALSE)
+write.csv(merged_data, "../data/processed/consistent_dataset.csv", row.names = FALSE)
 
 # Optional reload (not strictly necessary if continuing in same session)
-consistent_dataset <- read_csv("..data/processed/consistent_dataset.csv")
+consistent_dataset <- read_csv("../data/processed/consistent_dataset.csv")
 ```
 
 ## Filter speeches with mentions of the government
